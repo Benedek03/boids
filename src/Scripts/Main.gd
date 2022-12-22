@@ -43,17 +43,7 @@ func _process(delta):
 				neighbors += 1
 				cohesion += boids[j].position
 				var a = boid.position - boids[j].position
-				var asd = 2
-				if a.x != 0:
-					if a.x > 0:
-						separation.x += max(1 / a.x, asd)
-					else:
-						separation.x += min(1 / a.x, -asd)
-				if a.y != 0:
-					if a.y > 0:
-						separation.y += max(1 / a.y, asd)
-					else:
-						separation.y += min(1 / a.y, -asd)
+				separation += a / a.length()
 				alignment += boids[j].d
 		
 		if neighbors != 0:
