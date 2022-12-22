@@ -1,9 +1,8 @@
 # Flocking simulation
-school project
+this is one of school projects
 
-https://www.red3d.com/cwr/boids/
-
-## Flocking rules
-1. Separation: steer to avoid crowding local flockmates
-0. Alignment: steer towards the average heading of local flockmates
-0. Cohesion: steer to move toward the average position of local flockmates
+inspiration/sources:
+ - https://www.youtube.com/watch?v=bqtqltqcQhw
+ - https://eater.net/boids
+ - https://www.red3d.com/cwr/boids/
+ - https://www.youtube.com/watch?v=mhjuuHl6qHM

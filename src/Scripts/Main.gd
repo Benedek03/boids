@@ -3,7 +3,6 @@ extends Node2D
 var boidScene = preload("res://Scenes/Boid.tscn")
 var boids = []
 
-var boidsNum = 300
 var visual_range = 80
 var max_speed = 10
 var min_speed = 5
@@ -16,64 +15,26 @@ var cohesion_factor = 0.05
 
 var running = false
 
-func init_boids():
-	randomize()
-	for i in range(0, boidsNum):
+func add_boids(n):
+	for _i in range(0, n):
 		var instance = boidScene.instance()
-		instance.position = Vector2(rand_range(0, OS.window_size.x), rand_range(0, OS.window_size.y))
-		instance.d = Vector2(rand_range(0, 10) - 5, rand_range(0, 10) - 5)
-		instance.rotation = instance.d.angle()
 		boids.append(instance)
 		add_child(instance)
 
-func _process(delta):
+func _process(_delta):
 	if !running:
 		return
-	
-	for i in range(0, boids.size()):
-		var boid = boids[i]
-		boid.nd = boid.d
-		var cohesion: Vector2
-		var separation: Vector2
-		var alignment: Vector2
-		
-		var neighbors = 0
-		for j in range(0, boids.size()):
-			if i != j and (boid.position - boids[j].position).length() < visual_range:
-				neighbors += 1
-				cohesion += boids[j].position
-				var a = boid.position - boids[j].position
-				separation += a / a.length()
-				alignment += boids[j].d
-		
-		if neighbors != 0:
-			boid.nd += separation * separation_factor
-			boid.nd += (alignment / neighbors - boid.d) * alignment_factor
-			boid.nd += (cohesion  / neighbors - boid.position) * cohesion_factor
-		
-		if boid.position.x < margin:
-			boid.nd.x += turn_factor
-		if boid.position.x > OS.window_size.x - margin:
-			boid.nd.x -= turn_factor
-		if boid.position.y < margin:
-			boid.nd.y += turn_factor
-		if boid.position.y > OS.window_size.y - margin:
-			boid.nd.y -= turn_factor
-		
-		var speed = boid.nd.length()
-		if speed > max_speed:
-			boid.nd *= max_speed / speed 
-		if speed < min_speed:
-			boid.nd *= min_speed / speed 			
-		
-	for i in range(0, boids.size()):
-		boids[i].d = boids[i].nd
-		boids[i].rotation = boids[i].d.angle()
-		boids[i].position += boids[i].d
 
-func _input(ev):
+	for i in range(0, boids.size()):
+		boids[i].update_steering(boids, visual_range, separation_factor, alignment_factor, cohesion_factor)
+		boids[i].keep_within(margin, turn_factor)
+		boids[i].limit_speed(min_speed, max_speed)
+
+	for i in range(0, boids.size()):
+		boids[i].move()
+
+func _input(_ev):
 	if Input.is_key_pressed(KEY_S):
-		if boids.size() == 0:
-			init_boids()
-		else:
-			running = !running
+		running = !running
+	if Input.is_key_pressed(KEY_A):
+		add_boids(300)
