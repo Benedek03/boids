@@ -3,28 +3,33 @@ extends Node2D
 var boidScene = preload("res://Scenes/Boid.tscn")
 var boids = []
 
-var boidsNum = 200
-var visual_range = 50
+var boidsNum = 300
+var visual_range = 80
 var max_speed = 10
 var min_speed = 5
 var margin = 50 
 var turn_factor = 1
 
-var separation_factor = 0.05
+var separation_factor = 0.1
 var alignment_factor = 0.1
 var cohesion_factor = 0.05
 
-func _ready():
+var running = false
+
+func init_boids():
 	randomize()
 	for i in range(0, boidsNum):
 		var instance = boidScene.instance()
 		instance.position = Vector2(rand_range(0, OS.window_size.x), rand_range(0, OS.window_size.y))
 		instance.d = Vector2(rand_range(0, 10) - 5, rand_range(0, 10) - 5)
+		instance.rotation = instance.d.angle()
 		boids.append(instance)
 		add_child(instance)
-	pass
 
 func _process(delta):
+	if !running:
+		return
+	
 	for i in range(0, boids.size()):
 		var boid = boids[i]
 		boid.nd = boid.d
@@ -75,4 +80,10 @@ func _process(delta):
 		boids[i].d = boids[i].nd
 		boids[i].rotation = boids[i].d.angle()
 		boids[i].position += boids[i].d
-	pass
+
+func _input(ev):
+	if Input.is_key_pressed(KEY_S):
+		if boids.size() == 0:
+			init_boids()
+		else:
+			running = !running
