@@ -3,28 +3,29 @@ extends Node2D
 var d: Vector2
 var nd: Vector2
 
+var r: int
+var c: int 
+
 func _ready():
 	randomize()
-	position = Vector2(rand_range(0, OS.window_size.x), rand_range(0, OS.window_size.y))
 	d = Vector2(rand_range(0, 10) - 5, rand_range(0, 10) - 5)
 	rotation = d.angle()
 
-func update_steering(boids, visual_range, separation_factor, alignment_factor, cohesion_factor):
+func update_steering(boidsa, visual_range, separation_factor, alignment_factor, cohesion_factor):
 	nd = d
 	var separation = Vector2(0, 0)
 	var alignment = Vector2(0, 0)
 	var cohesion = Vector2(0, 0)
-	
 	var n = 0
-	for i in range(0, boids.size()):
-		var diff = position - boids[i].position
-		var diff_length = diff.length()
-		if diff_length != 0 and diff_length < visual_range:
-			n += 1
-			separation += diff / diff_length
-			alignment += boids[i].d
-			cohesion += boids[i].position
-	
+	for boids in boidsa:
+		for i in range(0, boids.size()):
+			var diff = position - boids[i].position
+			var diff_length = diff.length()
+			if diff_length != 0 and diff_length < visual_range:
+				n += 1
+				separation += diff / diff_length
+				alignment += boids[i].d
+				cohesion += boids[i].position		
 	if n != 0:
 		nd += separation * separation_factor
 		nd += (alignment / n - d) * alignment_factor
