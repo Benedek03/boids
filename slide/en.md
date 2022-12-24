@@ -36,9 +36,9 @@ steer to move toward the average position of local flockmates
 ---
 
 # Optimization
-1. divide the screen to  squares where the width and height equals 2 * visual range of the boids
+1. divide the screen to  squares where the width and height equals the visual range of the boids
 0. the boids only need to check the squares where they are and the 8 surrounding it
 
 ---
 
-<video controls="controls" src="https://user-images.githubusercontent.com/81362206/209354785-850ac0f3-01e5-41e9-a814-fc3ed5533bad.mp4"></video>
+<video controls="controls" src="https://user-images.githubusercontent.com/81362206/209434840-e1d843e3-fcaf-4c6b-9e1d-eee4c86baf2a.mp4"></video>
