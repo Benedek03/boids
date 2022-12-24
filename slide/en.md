@@ -31,7 +31,7 @@ steer to move toward the average position of local flockmates
 
 ---
 
-<video controls="controls" src="https://user-images.githubusercontent.com/81362206/209197187-509fecf0-9c7d-4eb7-a813-01d25fbf00d5.mp4"></video>
+<iframe width="100%" height="100%" src="https://www.youtube.com/embed/I0JIVFfPD9w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---
 
@@ -41,4 +41,4 @@ steer to move toward the average position of local flockmates
 
 ---
 
-<video controls="controls" src="https://user-images.githubusercontent.com/81362206/209434840-e1d843e3-fcaf-4c6b-9e1d-eee4c86baf2a.mp4"></video>
+<iframe width="100%" height="100%" src="https://www.youtube.com/embed/AYz-op37B8c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
