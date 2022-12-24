@@ -15,6 +15,7 @@ var alignment_factor = 0.1
 var cohesion_factor = 0.05
 
 var running = false
+var draw = false
 
 var rows = 9 * 2
 var cols = 16 * 2
@@ -97,9 +98,13 @@ func _input(_ev):
 		running = !running
 	if Input.is_key_pressed(KEY_A):
 		add_boids(200)
+	if Input.is_key_pressed(KEY_D):
+		draw = !draw
+		update()
 
 func _draw():
-	for i in range(0, rows+1):
-		draw_line(Vector2(0, i *  visual_range), Vector2(OS.window_size.x, i *  visual_range), Color(0, 255, 0), 1)
-	for i in range(0, cols+1):
-		draw_line(Vector2(i * visual_range, 0), Vector2(i *  visual_range, OS.window_size.y), Color(0, 255, 0), 1)
+	if draw:
+		for i in range(0, rows+1):
+			draw_line(Vector2(0, i *  visual_range), Vector2(OS.window_size.x, i *  visual_range), Color(0, 255, 0), 1)
+		for i in range(0, cols+1):
+			draw_line(Vector2(i * visual_range, 0), Vector2(i *  visual_range, OS.window_size.y), Color(0, 255, 0), 1)
