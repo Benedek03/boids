@@ -16,12 +16,12 @@ var cohesion_factor = 0.05
 
 var running = false
 
-var rows = 9
-var cols = 16
+var rows = 9 * 2
+var cols = 16 * 2
 
 func _ready():
-	OS.set_min_window_size(Vector2(cols*visual_range*2,rows*visual_range*2))
-	OS.set_max_window_size(Vector2(cols*visual_range*2,rows*visual_range*2))
+	OS.set_min_window_size(Vector2(cols*visual_range,rows*visual_range))
+	OS.set_max_window_size(Vector2(cols*visual_range,rows*visual_range))
 	#OS.center_window()
 	for x in range(rows):
 		var a = []
@@ -34,8 +34,8 @@ func add_boids(n):
 	for _i in range(n):
 		var instance = boidScene.instance()
 		var p = Vector2(rand_range(0, OS.window_size.x), rand_range(0, OS.window_size.y))
-		var row = floor(p.y / (visual_range * 2)) 
-		var col = floor(p.x / (visual_range * 2)) 
+		var row = floor(p.y / (visual_range)) 
+		var col = floor(p.x / (visual_range)) 
 		instance.position = p
 		instance.r = row
 		instance.c = col
@@ -81,10 +81,10 @@ func _process(_delta):
 		for y in range(cols):
 			for i in range(0, boids[x][y].size()):
 				boids[x][y][i].move()
-				var row = floor(boids[x][y][i].position.y / (visual_range * 2)) 
+				var row = floor(boids[x][y][i].position.y / (visual_range)) 
 				if row >= rows: 
 					row = rows - 1
-				var col = floor(boids[x][y][i].position.x / (visual_range * 2))
+				var col = floor(boids[x][y][i].position.x / (visual_range))
 				if col >= cols: 
 					col = cols - 1
 				boids[x][y][i].r = row
@@ -99,8 +99,7 @@ func _input(_ev):
 		add_boids(200)
 
 func _draw():
-	return
 	for i in range(0, rows+1):
-		draw_line(Vector2(0, i * 2 * visual_range), Vector2(OS.window_size.x, i * 2 * visual_range), Color(0, 255, 0), 1)
+		draw_line(Vector2(0, i *  visual_range), Vector2(OS.window_size.x, i *  visual_range), Color(0, 255, 0), 1)
 	for i in range(0, cols+1):
-		draw_line(Vector2(i * 2 * visual_range, 0), Vector2(i * 2 * visual_range, OS.window_size.y), Color(0, 255, 0), 1)
+		draw_line(Vector2(i * visual_range, 0), Vector2(i *  visual_range, OS.window_size.y), Color(0, 255, 0), 1)
