@@ -1,11 +1,14 @@
 # Boids
-this is one of school projects
-
-https://user-images.githubusercontent.com/81362206/209197187-509fecf0-9c7d-4eb7-a813-01d25fbf00d5.mp4
-
-after some optimization
 
 https://user-images.githubusercontent.com/81362206/209434840-e1d843e3-fcaf-4c6b-9e1d-eee4c86baf2a.mp4
+
+this is one of school projects
+
+## Usage
+ - a: adds 100 boids
+ - s: starts/stops the simulation
+ - d: toggles the grid
+ - q: quits the simulation
 
 ## inspiration/sources:
  - https://www.youtube.com/watch?v=bqtqltqcQhw
