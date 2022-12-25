@@ -6,7 +6,7 @@ var nd: Vector2
 func _ready():
 	randomize()
 	position = Vector2(rand_range(0, OS.window_size.x), rand_range(0, OS.window_size.y))
-	d = Vector2(rand_range(0, 10) - 5, rand_range(0, 10) - 5)
+	d = Vector2(rand_range(-5, 5), rand_range(-5, 5))
 	rotation = d.angle()
 	
 func get_grid_pos():
@@ -37,6 +37,7 @@ func steer(cells):
 		nd += separation * $"../Global".SEPARATION_FACTOR
 		nd += (alignment / n - d) * $"../Global".ALIGNMENT_FACTOR
 		nd += (cohesion  / n - position) * $"../Global".COHESION_FACTOR
+	nd += Vector2(rand_range(-1, 1), rand_range(-1, 1)) * $"../Global".RANDOM_FACTOR
 
 func keep_within():
 	if position.x < $"../Global".MARGIN:

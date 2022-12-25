@@ -11,6 +11,7 @@ export var MIN_SPEED = 5
 export var SEPARATION_FACTOR = 0.2
 export var ALIGNMENT_FACTOR = 0.1
 export var COHESION_FACTOR = 0.05
+export var RANDOM_FACTOR = 0.0
 
 export var RUNNING = false
 export var DRAW = false
