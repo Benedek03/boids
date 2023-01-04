@@ -4,7 +4,7 @@ export var VISUAL_RANGE = 60
 export var ROWS = 9 * 2
 export var COLS = 16 * 2
 export var MARGIN = 50 
-export var TURN_FACTOR = 1
+export var TURN_FACTOR = 2
 export var MAX_SPEED = 10
 export var MIN_SPEED = 5
 

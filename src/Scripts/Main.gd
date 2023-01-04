@@ -15,18 +15,16 @@ func create_map():
 
 func add_boids(n):
 	randomize()
-	for _i in range(n):
+	for i in range(n):
 		var instance = boidScene.instance()
 		add_child(instance)
+		instance.set_species(i % 3)
 		var gp = instance.get_grid_pos()
 		grid[gp.x][gp.y].append(instance)
 	boidsnum += n
 	$Label.text = "number of boids: %d" % boidsnum 
 
 func _ready():
-	var ws = Vector2($Global.COLS * $Global.VISUAL_RANGE, $Global.ROWS * $Global.VISUAL_RANGE);
-	OS.set_min_window_size(ws)
-	OS.set_max_window_size(ws)
 	$Label.text = "number of boids: %d" % boidsnum 
 	grid = create_map()
 
@@ -61,8 +59,11 @@ func _input(_ev):
 		update()
 
 func _draw():
+	var ws = Vector2($Global.COLS * $Global.VISUAL_RANGE, $Global.ROWS * $Global.VISUAL_RANGE);
+	OS.set_min_window_size(ws)
+	OS.set_max_window_size(ws)
 	if !$Global.DRAW: return
 	for i in range($Global.VISUAL_RANGE, $Global.ROWS * $Global.VISUAL_RANGE, $Global.VISUAL_RANGE):
-		draw_line(Vector2(0, i), Vector2(OS.window_size.x, i), Color(0, 255, 0))
+		draw_line(Vector2(0, i), Vector2(ws.x, i), Color(0, 255, 0))
 	for i in range($Global.VISUAL_RANGE, $Global.COLS * $Global.VISUAL_RANGE, $Global.VISUAL_RANGE): 
-		draw_line(Vector2(i, 0), Vector2(i, OS.window_size.y), Color(0, 255, 0))
+		draw_line(Vector2(i, 0), Vector2(i, ws.y), Color(0, 255, 0))
