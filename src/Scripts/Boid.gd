@@ -2,7 +2,7 @@ extends Node2D
 
 var d: Vector2
 var nd: Vector2
-var species = 0
+var species
 
 func _ready():
 	randomize()
@@ -12,22 +12,17 @@ func _ready():
 
 func set_species(s):
 	species = s
-
-func _draw():
-	if species == 0:
-		$Sprite.self_modulate = Color("98971a")
-	if species == 1:
-		$Sprite.self_modulate = Color("b16286")
-	if species == 2:
-		$Sprite.self_modulate = Color("458588")
+	if species == 0: $Sprite.self_modulate = Color("98971a")   #green
+	elif species == 1: $Sprite.self_modulate = Color("b16286") #purple
+	elif species == 2: $Sprite.self_modulate = Color("458588") #blue
 
 func get_grid_pos():
-	var row = floor(position.y / $"../Global".VISUAL_RANGE) 
+	var row = floor(position.y / $"..".VISUAL_RANGE) 
 	if row < 0: row = 0
-	if row >= $"../Global".ROWS: row = $"../Global".ROWS - 1
-	var col = floor(position.x / $"../Global".VISUAL_RANGE)
+	elif row >= $"..".ROWS: row = $"..".ROWS - 1
+	var col = floor(position.x / $"..".VISUAL_RANGE)
 	if col < 0: col = 0
-	if col >= $"../Global".COLS: col = $"../Global".COLS - 1
+	elif col >= $"..".COLS: col = $"..".COLS - 1
 	return Vector2(row, col)
 
 func steer(cells):
@@ -37,40 +32,35 @@ func steer(cells):
 	var cohesion = Vector2(0, 0)
 	var n = 0
 	var n2 = 0
+	
 	for cell in cells:
-		for i in range(0, cell.size()):
-			var diff = position - cell[i].position
+		for i in range(1, cell.size()):
+			var diff = position - $"..".BOIDS[cell[i]].position
 			var diff_length = diff.length()
-			if diff_length != 0 and diff_length < $"../Global".VISUAL_RANGE:
+			if diff_length != 0 and diff_length < $"..".VISUAL_RANGE:
 				n += 1
 				separation += diff / diff_length
-				if species == cell[i].species:
+				if species == $"..".BOIDS[cell[i]].species:
 					n2 += 1
-					alignment += cell[i].d
-					cohesion += cell[i].position		
+					alignment += $"..".BOIDS[cell[i]].d
+					cohesion += $"..".BOIDS[cell[i]].position
+	
 	if n != 0:
-		nd += separation * $"../Global".SEPARATION_FACTOR
+		nd += separation * $"..".SEPARATION_FACTOR[species]
 	if n2 != 0:
-		nd += (alignment / n2 - d) * $"../Global".ALIGNMENT_FACTOR
-		nd += (cohesion  / n2 - position) * $"../Global".COHESION_FACTOR
-	nd += Vector2(rand_range(-1, 1), rand_range(-1, 1)) * $"../Global".RANDOM_FACTOR
-
-func keep_within():
-	if position.x < $"../Global".MARGIN:
-		nd.x += $"../Global".TURN_FACTOR
-	if position.x > OS.window_size.x - $"../Global".MARGIN:
-		nd.x -= $"../Global".TURN_FACTOR
-	if position.y < $"../Global".MARGIN:
-		nd.y += $"../Global".TURN_FACTOR
-	if position.y > OS.window_size.y - $"../Global".MARGIN:
-		nd.y -= $"../Global".TURN_FACTOR
+		nd += (alignment / n2 - d) * $"..".ALIGNMENT_FACTOR[species]
+		nd += (cohesion  / n2 - position) * $"..".COHESION_FACTOR[species]
+	nd += Vector2(rand_range(-1, 1), rand_range(-1, 1)) * $"..".RANDOM_FACTOR[species]
+	
+	if position.x < $"..".MARGIN: nd.x += $"..".TURN_FACTOR
+	elif position.x > OS.window_size.x - $"..".MARGIN: nd.x -= $"..".TURN_FACTOR
+	if position.y < $"..".MARGIN: nd.y += $"..".TURN_FACTOR
+	elif position.y > OS.window_size.y - $"..".MARGIN: nd.y -= $"..".TURN_FACTOR
 
 func limit_speed():
 	var speed = nd.length()
-	if speed > $"../Global".MAX_SPEED:
-		nd *= $"../Global".MAX_SPEED / speed
-	if speed < $"../Global".MIN_SPEED:
-		nd *= $"../Global".MIN_SPEED / speed
+	if speed > $"..".MAX_SPEED[species]: nd *= $"..".MAX_SPEED[species] / speed
+	elif speed < $"..".MIN_SPEED[species]: nd *= $"..".MIN_SPEED[species] / speed
 
 func move():
 	d = nd
