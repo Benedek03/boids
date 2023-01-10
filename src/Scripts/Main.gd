@@ -6,9 +6,9 @@ export var COLS = 16 * 2
 export var MARGIN = 50
 export var TURN_FACTOR = 3
 #								green	purple	blue
-export var SEPARATION_FACTOR = [0.2,	0.2,	0.2]
+export var SEPARATION_FACTOR = [0.2,	0.2,	0.5]
 export var ALIGNMENT_FACTOR  = [0.1,	0.1,	0.1]
-export var COHESION_FACTOR   = [0.05,	0.05,	0.05]
+export var COHESION_FACTOR   = [0.05,	0.07,	0.05]
 export var RANDOM_FACTOR     = [2,   	1,		0]
 export var MAX_SPEED         = [10,		10,		10]
 export var MIN_SPEED         = [5,		5,		5]
@@ -23,12 +23,18 @@ var boids_num = 0
 
 func _ready():
 	$Label.text = "number of boids: %d" % boids_num
+	grid()
+
+func grid():
 	grid = []
 	for _x in range(ROWS):
 		var b = []
 		for _y in range(COLS):
 			b.append([0]);
 		grid.append(b)
+	for i in BOIDS.size():
+		var gp = BOIDS[i].get_grid_pos()
+		grid[gp.x][gp.y].append(i)
 
 func add_boids(n):
 	randomize()
@@ -47,9 +53,20 @@ func _input(_ev):
 	if Input.is_key_pressed(KEY_S): RUNNING = !RUNNING
 	if Input.is_key_pressed(KEY_A): add_boids(100)
 	if Input.is_key_pressed(KEY_Q): get_tree().quit()
-	if Input.is_key_pressed(KEY_D):
-		DRAW = !DRAW
-		update()
+	if Input.is_key_pressed(KEY_R): 
+		ROWS += 1
+		grid()
+	if Input.is_key_pressed(KEY_F): 
+		ROWS -= 1
+		grid()
+	if Input.is_key_pressed(KEY_T): 
+		COLS += 1
+		grid()
+	if Input.is_key_pressed(KEY_G): 
+		COLS -= 1
+		grid()
+	if Input.is_key_pressed(KEY_D): DRAW = !DRAW
+	update()
 
 func _draw():
 	var ws = Vector2(COLS * VISUAL_RANGE, ROWS * VISUAL_RANGE);

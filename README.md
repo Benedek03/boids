@@ -9,6 +9,10 @@ this is one of school projects
  - s: starts/stops the simulation
  - d: toggles the grid
  - q: quits the simulation
+ - r: add 1 row
+ - f: remove 1 row
+ - t: add 1 column
+ - g: remove 1 column
 
 ## inspiration/sources:
  - https://www.youtube.com/watch?v=bqtqltqcQhw
